@@ -1,7 +1,7 @@
 id=adguardhome
 name=AdGuard Home (DNS ad-blocker)
-version=v1.0.1
-versionCode=2
+version=v1.0.2
+versionCode=3
 author=kaandikec
-description=Network-wide DNS ad-blocker for rooted Android (ZTE F50). Runs AdGuard Home daemon on port 5353; hotspot clients are transparently redirected via iptables NAT so all DNS queries get filtered. Web UI at http://192.168.0.1:3000 from any connected client. Self-updates via the statusbot /update command.
+description=Network-wide DNS ad-blocker for rooted Android (ZTE F50). Runs AdGuard Home daemon on port 5353; hotspot clients are transparently redirected via iptables NAT (inserted at PREROUTING position 1, beats ZTE firmware's DNAT-to-1.1.1.1). Web UI at http://192.168.0.1:3000 from any connected client. Self-updates via the statusbot /update command.
 updateJson=https://raw.githubusercontent.com/dikeckaan/magisk-zte-f50-adguardhome/main/update.json

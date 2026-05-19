@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.0.2 — 2026-05-19
+- **Fixed**: ZTE firmware adds its own DNAT-to-1.1.1.1 rule on every
+  boot at the top of nat PREROUTING. The previous `-A` (append) put our
+  REDIRECT below it, so hotspot client DNS queries were forwarded to
+  Cloudflare directly and never reached AdGuard Home — querylog stayed
+  empty. We now use `-I PREROUTING 1` so our rule always sits at
+  position 1 and matches first.
+- **Robustness**: `service.sh` waits up to 90 s for `br0` to come up
+  before adding rules. A keepalive loop re-asserts the redirect every
+  5 min, so any future PREROUTING reordering by the firmware or by
+  `netd` is healed automatically.
+- **Cleaner uninstall**: removes every copy of our redirect (the
+  keepalive may have inserted several across boots) and does NOT touch
+  ZTE's vendor DNAT rules.
+- No binary changes.
+
 ## v1.0.1 — 2026-05-19
 - **Fixed**: `statistics.interval: 24` in the seed YAML had no unit, which
   AdGuard Home schema 34 rejects (`time: missing unit in duration "24"`).
