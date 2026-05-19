@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.0.3 — 2026-05-19
+- **Service migration to `bin-utils/lib/common.sh`** (now a hard dep,
+  v1.3.0+ required). `service.sh` dropped its inline `wait_for_bridge`,
+  `find_ca_bundle`, log-rotate and `ensure_redirect` definitions — they
+  all live in the shared library now. Net: 87 → 58 lines.
+- `customize.sh` now hard-requires bin-utils v1.3.0+ at install time.
+- Behaviour unchanged: same iptables policy (insert at PREROUTING pos 1,
+  re-assert every 5 min), same SSL_CERT_FILE export, same supervisor.
+
 ## v1.0.2 — 2026-05-19
 - **Fixed**: ZTE firmware adds its own DNAT-to-1.1.1.1 rule on every
   boot at the top of nat PREROUTING. The previous `-A` (append) put our

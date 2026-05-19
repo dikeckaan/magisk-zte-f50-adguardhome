@@ -15,6 +15,18 @@ if [ "$ARCH" != "arm64" ]; then
     abort "  AdGuard Home binary is arm64-only. Aborting."
 fi
 
+# Hard dependency: bin-utils v1.3.0+ for /data/adb/modules/bin-utils/lib/common.sh
+if [ ! -r /data/adb/modules/bin-utils/lib/common.sh ] \
+   && [ ! -r /data/adb/modules_update/bin-utils/lib/common.sh ]; then
+    ui_print " "
+    ui_print "  ❌ bin-utils v1.3.0+ is required (provides lib/common.sh)."
+    ui_print "     Install it first:"
+    ui_print "       /install_module bin-utils   (from the bot)"
+    ui_print "     or flash bin-utils-v1.3.0.zip manually, then retry."
+    ui_print " "
+    abort "  Missing dependency: bin-utils v1.3.0+"
+fi
+
 # Work dir for config / data
 mkdir -p /data/adguardhome
 chmod 755 /data/adguardhome
