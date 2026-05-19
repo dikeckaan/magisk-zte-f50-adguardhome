@@ -1,0 +1,58 @@
+# AdGuard Home initial config — first-run wizard at http://<device>:3000
+# will overwrite this once you set an admin password. Until then, the daemon
+# starts up *unconfigured* (web UI accessible without auth) and waits for the
+# wizard. Once you finish the wizard the daemon writes its own AdGuardHome.yaml
+# with hashed credentials.
+#
+# We pre-seed the bind ports so the wizard doesn't try port 53 (which collides
+# with the system dnsmasq) or port 80 (often busy on Android).
+
+bind_host: 0.0.0.0
+bind_port: 3000
+
+dns:
+  bind_hosts:
+    - 0.0.0.0
+  port: 5353
+  upstream_dns:
+    - https://dns.cloudflare.com/dns-query
+    - https://dns.google/dns-query
+    - 1.1.1.1
+    - 8.8.8.8
+  bootstrap_dns:
+    - 1.1.1.1
+    - 8.8.8.8
+  cache_size: 4194304
+  ratelimit: 20
+  blocking_mode: default
+  edns_client_subnet:
+    enabled: false
+
+filtering:
+  filtering_enabled: true
+  parental_enabled: false
+  safebrowsing_enabled: false
+  safesearch_enabled: false
+  protection_enabled: true
+
+filters:
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt
+    name: AdGuard DNS filter
+    id: 1
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_2.txt
+    name: AdAway Default Blocklist
+    id: 2
+
+querylog:
+  enabled: true
+  interval: 24h
+  size_memory: 1000
+  file_enabled: true
+
+statistics:
+  enabled: true
+  interval: 24
+
+schema_version: 20
