@@ -53,6 +53,6 @@ querylog:
 
 statistics:
   enabled: true
-  interval: 24
+  interval: 24h
 
 schema_version: 20

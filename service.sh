@@ -13,6 +13,15 @@ DNS_PORT=5353
 
 mkdir -p "$DATA"
 
+# Go reads its own CA pool — Android's system pool isn't trusted out of the box.
+# Point Go at the bin-utils CA bundle (or /system/etc/cacert.pem as a fallback)
+# so DoH upstreams and blocklist updates can verify TLS certificates.
+for CABUNDLE in /data/adb/modules/bin-utils/system/etc/cacert.pem \
+                /system/etc/cacert.pem \
+                /system/etc/security/cacerts.bks; do
+    [ -r "$CABUNDLE" ] && export SSL_CERT_FILE="$CABUNDLE" && break
+done
+
 # Warm-up: let interfaces come up before adding NAT rules
 sleep 25
 
